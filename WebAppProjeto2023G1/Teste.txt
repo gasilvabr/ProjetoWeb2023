@@ -1,1 +1,2 @@
 Teste de pull
+Alterei no servidor git
