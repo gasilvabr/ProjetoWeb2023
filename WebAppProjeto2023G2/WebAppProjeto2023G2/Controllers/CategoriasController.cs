@@ -23,5 +23,22 @@ namespace WebAppProjeto2023G2.Controllers
         {
             return View(categorias);
         }
+
+        // GET: Categorias
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Categoria categoria)
+        {
+            categoria.CategoriaId = categorias.Select(m => m.CategoriaId).Max() + 1;
+            categorias.Add(categoria);
+            return RedirectToAction("Index");
+        }
+
+
     }
 }
