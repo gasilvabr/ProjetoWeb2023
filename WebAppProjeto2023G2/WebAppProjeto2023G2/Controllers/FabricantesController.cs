@@ -61,6 +61,7 @@ namespace WebAppProjeto2023G2.Controllers
             {
                 context.Entry(fabricante).State = EntityState.Modified;
                 context.SaveChanges();
+                TempData["Message"] = "Fabricante " + fabricante.Nome.ToUpper() + " foi alterado";
                 return RedirectToAction("Index");
             }
             return View(fabricante);
@@ -104,11 +105,9 @@ namespace WebAppProjeto2023G2.Controllers
             Fabricante fabricante = context.Fabricantes.Find(id);
             context.Fabricantes.Remove(fabricante);
             context.SaveChanges();
+            TempData["Message"] = "Fabricante " + fabricante.Nome.ToUpper() + " foi removido";
             return RedirectToAction("Index");
         }
-
-
-
 
     }
 }
