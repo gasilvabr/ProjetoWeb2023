@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebAppProjeto2023G1.Models;
+using System.Data.Entity;
 
 namespace WebAppProjeto2023G1.Controllers
 {
@@ -14,7 +15,7 @@ namespace WebAppProjeto2023G1.Controllers
         // GET: Produtos
         public ActionResult Index()
         {
-            return View(context.Produtos.OrderBy(c => c.Nome));
+            return View(context.Produtos.Include(c => c.Categoria).Include(f => f.Fabricante).OrderBy(n => n.Nome));
         }
 
         // GET: Produtos/Details/5
@@ -26,17 +27,22 @@ namespace WebAppProjeto2023G1.Controllers
         // GET: Produtos/Create
         public ActionResult Create()
         {
+
+            ViewBag.CategoriaId = new SelectList(context.Categorias.OrderBy(b => b.Nome), "CategoriaId", "Nome");
+            ViewBag.FabricanteId = new SelectList(context.Fabricantes.OrderBy(b => b.Nome), "FabricanteId", "Nome");
+
             return View();
         }
 
         // POST: Produtos/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Produto produto)
         {
             try
             {
                 // TODO: Add insert logic here
-
+                context.Produtos.Add(produto);
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
