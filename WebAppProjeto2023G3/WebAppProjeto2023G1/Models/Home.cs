@@ -10,5 +10,6 @@ namespace WebAppProjeto2023G1.Models
     {
         public IQueryable<Fabricante> fabricantes;
         public IQueryable<Categoria> categorias;
+        public IQueryable<Produto> produtos;
     }
 }
