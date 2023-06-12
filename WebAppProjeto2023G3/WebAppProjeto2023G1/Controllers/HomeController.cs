@@ -18,9 +18,15 @@ namespace WebAppProjeto2023G1.Controllers
             h.fabricantes = context.Fabricantes.OrderBy(c => c.Nome);
             h.categorias = context.Categorias.OrderBy(c => c.Nome);
             if ((FabricanteId != null) && (FabricanteId != 0))
+            {
+                h.filtro = "Fabricante";
                 h.produtos = context.Produtos.Where(p => p.FabricanteId == FabricanteId).OrderBy(c => c.Nome);
+            }
             if ((CategoriaId != null) && (CategoriaId != 0))
+            { 
+                h.filtro = "Categoria";
                 h.produtos = context.Produtos.Where(p => p.CategoriaId == CategoriaId).OrderBy(c => c.Nome);
+            }
             return View(h);
         }
         public ActionResult IndexProdutosFabricante(long FabId)

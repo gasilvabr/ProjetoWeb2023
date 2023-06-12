@@ -16,7 +16,7 @@
             @foreach (var item in Model.fabricantes)
             {
                 <td>
-                    @Html.ActionLink(item.Nome, "Index", "Home", new { id = item.FabricanteId }, null)
+                    @Html.ActionLink(item.Nome, "Index", "Home", new { FabricanteId = item.FabricanteId }, null)
                 </td>
             }
         </tr>
@@ -35,7 +35,7 @@
             @foreach (var item in Model.categorias)
             {
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
+                    @Html.ActionLink(item.Nome, "Index", "Home", new { CategoriaId = item.CategoriaId }, null)
                 </td>
             }
         </tr>
@@ -43,28 +43,37 @@
     </table>
 </div>
 
-@if (Model.produtos != null)
+@if ((Model.produtos != null) && (Model.filtro == "Fabricante"))
 {
     <div class="alert alert-success" role="alert">
-        Produtos
+        Produtos por Fabricante
+        @Html.Partial("~/Views/Produtos/_PorFabricante.cshtml", Model.produtos.ToList())
+    </div>
+}
+
+@if ((Model.produtos != null) && (Model.filtro == "Categoria"))
+{
+    <div class="alert alert-success" role="alert">
+        Produtos por Categoria
+        @Html.Partial("~/Views/Produtos/_PorFabricante.cshtml", Model.produtos.ToList())
     </div>
 }
 
 
 @section ScriptPage{
-<script src="@Url.Content("~/scripts/DataTables-1.10.2/jquery.dataTables.js")"></script>
-<script src="@Url.Content("~/scripts/DataTables-1.10.2/dataTables.bootstrap.js")"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.table').dataTable(
-            {
-                "order": [[1, "asc"]]
-            }
-        );
-    });
-    $(document).ready(function () {
-        $('li').removeClass("active");
-        $('#liFabricantes').addClass("active");
-    });
-</script>
+    <script src="@Url.Content("~/scripts/DataTables-1.10.2/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/scripts/DataTables-1.10.2/dataTables.bootstrap.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.table').dataTable(
+                {
+                    "order": [[1, "asc"]]
+                }
+            );
+        });
+        $(document).ready(function () {
+            $('li').removeClass("active");
+            $('#liFabricantes').addClass("active");
+        });
+    </script>
 }
