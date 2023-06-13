@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebAppProjeto2023G2.Models;
+using WebAppProjeto2023G1.Models;
 using System.Data.Entity;
 using System.Net;
 
-namespace WebAppProjeto2023G2.Controllers
+namespace WebAppProjeto2023G1.Controllers
 {
     public class ProdutosController : Controller
     {
@@ -16,8 +16,7 @@ namespace WebAppProjeto2023G2.Controllers
         // GET: Produtos
         public ActionResult Index()
         {
-            return View(context.Produtos.Include(c => c.Categoria).Include(f => f.Fabricante).OrderBy(c => c.Nome)
-                );
+            return View(context.Produtos.Include(c => c.Categoria).Include(f => f.Fabricante).OrderBy(n => n.Nome));
         }
 
         // GET: Produtos/Details/5
@@ -38,8 +37,10 @@ namespace WebAppProjeto2023G2.Controllers
         // GET: Produtos/Create
         public ActionResult Create()
         {
+
             ViewBag.CategoriaId = new SelectList(context.Categorias.OrderBy(b => b.Nome), "CategoriaId", "Nome");
             ViewBag.FabricanteId = new SelectList(context.Fabricantes.OrderBy(b => b.Nome), "FabricanteId", "Nome");
+
             return View();
         }
 
@@ -97,31 +98,19 @@ namespace WebAppProjeto2023G2.Controllers
         }
 
         // GET: Produtos/Delete/5
-        public ActionResult Delete(long? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Produto produto = context.Produtos.Where(p => p.ProdutoId == id).Include(c => c.Categoria).Include(f => f.Fabricante).First();
-            if (produto == null)
-            {
-                return HttpNotFound();
-            }
-            return View(produto);
+            return View();
         }
 
         // POST: Produtos/Delete/5
         [HttpPost]
-        public ActionResult Delete(long id)
+        public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
                 // TODO: Add delete logic here
-                Produto produto = context.Produtos.Find(id);
-                context.Produtos.Remove(produto);
-                context.SaveChanges();
-                TempData["Message"] = "Produto " + produto.Nome.ToUpper() + " foi removido";
+
                 return RedirectToAction("Index");
             }
             catch
