@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WebAppProjeto2023G2.Models;
 using System.Data.Entity;
 using System.Net;
+using System.IO;
 
 namespace WebAppProjeto2023G2.Controllers
 {
@@ -79,11 +80,94 @@ namespace WebAppProjeto2023G2.Controllers
             return View(produto);
         }
 
-        // POST: Produtos/Edit/5
-        [HttpPost]
-        public ActionResult Edit(Produto produto)
+        private byte[] SetLogotipo(HttpPostedFileBase logotipo)
+        {
+            var bytesLogotipo = new byte[logotipo.ContentLength];
+            logotipo.InputStream.Read(bytesLogotipo, 0, logotipo.ContentLength);
+            return bytesLogotipo;
+        }
+
+        // Metodo Privado
+        private void PopularViewBag(Produto produto = null)
+        {
+            ViewBag.CategoriaId = new SelectList(context.Categorias.OrderBy(b => b.Nome), "CategoriaId",
+            "Nome", produto.CategoriaId);
+            ViewBag.FabricanteId = new SelectList(context.Fabricantes.OrderBy(b => b.Nome), "FabricanteId",
+            "Nome", produto.FabricanteId);
+        }
+
+        public void GravarProduto(Produto produto)
+        {
+            if (produto.ProdutoId == null)
+            {
+                context.Produtos.Add(produto);
+            }
+            else
+            {
+                context.Entry(produto).State = EntityState.Modified;
+            }
+            context.SaveChanges();
+        }
+
+        private ActionResult GravarProduto(Produto produto, HttpPostedFileBase logotipo, string chkRemoverImagem)
         {
             try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (chkRemoverImagem != null)
+                    {
+                        produto.Logotipo = null;
+                    }
+                    if (logotipo != null)
+                    {
+                        produto.LogotipoMimeType = logotipo.ContentType;
+                        // produto.Logotipo = SetLogotipo(logotipo); // Não salva no banco de dados
+
+                        produto.NomeArquivo = logotipo.FileName;
+                        produto.TamanhoArquivo = logotipo.ContentLength;
+
+                        string strFileName = Server.MapPath("~/App_Data/") + Path.GetFileName(logotipo.FileName);
+                        logotipo.SaveAs(strFileName);
+                    }
+                    //produtoServico.GravarProduto(produto);
+                    GravarProduto(produto);
+                    return RedirectToAction("Index");
+                }
+                PopularViewBag(produto);
+                return View(produto);
+            }
+            catch
+            {
+                PopularViewBag(produto);
+                return View(produto);
+            }
+        }
+
+        public ActionResult DownloadArquivo(long id)
+        {
+            //Produto produto = produtoServico.ObterProdutoPorId(id);
+            Produto produto = ObterProdutoPorId(id);
+            FileStream fileStream = new FileStream(Server.MapPath("~/App_Data/" + produto.NomeArquivo), FileMode.Create, FileAccess.Write);
+            fileStream.Write(produto.Logotipo, 0, Convert.ToInt32(produto.TamanhoArquivo));
+            fileStream.Close();
+            return File(fileStream.Name, produto.LogotipoMimeType, produto.NomeArquivo);
+        }
+        public ActionResult DownloadArquivo2(long id)
+        {
+            Produto produto = ObterProdutoPorId(id);
+            FileStream fileStream = new FileStream(Server.MapPath("~/App_Data/" +
+              produto.NomeArquivo), FileMode.Open, FileAccess.Read);
+            return File(fileStream.Name, produto.LogotipoMimeType, produto.NomeArquivo);
+        }
+
+        // POST: Produtos/Edit/5
+        [HttpPost]
+        public ActionResult Edit(Produto produto, HttpPostedFileBase logotipo = null, string chkRemoverImagem = null)
+        {
+            return GravarProduto(produto, logotipo, chkRemoverImagem);
+            
+/*                try
             {
                 // TODO: Add update logic here
                 context.Entry(produto).State = EntityState.Modified;
@@ -93,7 +177,40 @@ namespace WebAppProjeto2023G2.Controllers
             catch
             {
                 return View();
+            }*/
+        }
+
+        public Produto ObterProdutoPorId(long id)
+        {
+            return context.Produtos.Where(p => p.ProdutoId == id).Include(c => c.Categoria).Include(f => f.Fabricante).First();
+        }
+
+        public FileContentResult GetLogotipo(long id)
+        {
+            //Produto produto = produtoServico.ObterProdutoPorId(id);
+            Produto produto = ObterProdutoPorId(id);
+            if (produto != null)
+            {
+                return File(produto.Logotipo, produto.LogotipoMimeType);
             }
+            return null;
+        }
+        public FileContentResult GetLogotipo2(long id)
+        {
+            Produto produto = ObterProdutoPorId(id);
+            if (produto != null)
+            {
+                if (produto.NomeArquivo != null)
+                {
+                    var bytesLogotipo = new byte[produto.TamanhoArquivo];
+                    FileStream fileStream = new
+                    FileStream(Server.MapPath("~/App_Data/" + produto.NomeArquivo), FileMode.Open,
+                       FileAccess.Read);
+                    fileStream.Read(bytesLogotipo, 0, (int)produto.TamanhoArquivo);
+                    return File(bytesLogotipo, produto.LogotipoMimeType);
+                }
+            }
+            return null;
         }
 
         // GET: Produtos/Delete/5
