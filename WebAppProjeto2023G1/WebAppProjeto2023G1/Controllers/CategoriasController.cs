@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebAppProjeto2023G1.Models;
+using Modelo.Tabelas;
 
 namespace WebAppProjeto2023G1.Controllers
 {
