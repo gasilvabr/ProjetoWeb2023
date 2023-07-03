@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Modelo.Cadastros;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebAppProjeto2023G2.Models
+namespace Modelo.Tabelas
 {
     public class Categoria
     {
