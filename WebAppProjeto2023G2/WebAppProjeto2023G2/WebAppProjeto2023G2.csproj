@@ -208,6 +208,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202308281825511_InitialCreate.cs" />
+    <Compile Include="Migrations\202308281825511_InitialCreate.Designer.cs">
+      <DependentUpon>202308281825511_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +255,11 @@
       <Project>{e091dbe5-8be0-4904-a209-8e00c31fb40c}</Project>
       <Name>Servico</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202308281825511_InitialCreate.resx">
+      <DependentUpon>202308281825511_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
