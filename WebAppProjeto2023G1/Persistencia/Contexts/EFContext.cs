@@ -1,5 +1,6 @@
 ﻿using Modelo.Cadastros;
 using Modelo.Tabelas;
+using Persistencia.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,6 +16,8 @@ namespace Persistencia.Contexts
         {
             //Database.SetInitializer<EFContext>(
             //new DropCreateDatabaseIfModelChanges<EFContext>());
+            Database.SetInitializer<EFContext>(new
+              MigrateDatabaseToLatestVersion<EFContext, Configuration>());
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
