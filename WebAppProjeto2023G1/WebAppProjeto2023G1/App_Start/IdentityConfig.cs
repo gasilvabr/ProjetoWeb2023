@@ -10,7 +10,7 @@ using WebAppProjeto2023G1.DAL;
 using WebAppProjeto2023G1.Infraestrutura;
 
 
-namespace WebAppProjeto2023G1.App_Start
+namespace WebAppProjeto2023G1
 {
     public class IdentityConfig
     {
