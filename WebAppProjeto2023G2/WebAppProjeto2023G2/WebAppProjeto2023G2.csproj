@@ -197,6 +197,9 @@
     <Content Include="Content\DataTables-1.10.2\css\dataTables.jqueryui.scss" />
     <Content Include="Areas\Seguranca\Views\web.config" />
     <Content Include="Areas\Seguranca\Views\Admin\Index.cshtml" />
+    <Content Include="Areas\Seguranca\Views\Admin\Create.cshtml" />
+    <Content Include="Areas\Seguranca\Views\Admin\Edit.cshtml" />
+    <Content Include="Areas\Seguranca\Views\Admin\Delete.cshtml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\DataTables-1.10.2\dataTables.autoFill.js" />
     <Content Include="Scripts\DataTables-1.10.2\dataTables.autoFill.min.js" />
@@ -235,6 +238,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Seguranca\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Seguranca\Data\SegurancaViewModels.cs" />
     <Compile Include="Areas\Seguranca\Data\Usuario.cs" />
     <Compile Include="Areas\Seguranca\SegurancaAreaRegistration.cs" />
     <Compile Include="Context\EFContext.cs" />
