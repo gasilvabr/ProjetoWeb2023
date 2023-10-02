@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebAppProjeto2023G1.Areas.Seguranca.Data;
@@ -22,6 +23,7 @@ namespace WebAppProjeto2023G1.Areas.Seguranca.Controllers
             }
         }
         // GET: Seguranca/Admin
+        [Authorize]
         public ActionResult Index()
         {
             return View(GerenciadorUsuario.Users);
@@ -61,5 +63,82 @@ namespace WebAppProjeto2023G1.Areas.Seguranca.Controllers
             }
             return View(model);
         }
+
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Usuario usuario = GerenciadorUsuario.FindById(id);
+            if (usuario == null)
+            {
+                return HttpNotFound();
+            }
+            // inicia o objeto usuário para visão
+            var uvm = new UsuarioViewModel();
+            uvm.Id = usuario.Id;
+            uvm.Nome = usuario.UserName;
+            uvm.Email = usuario.Email;
+            return View(uvm);
+        }
+        [HttpPost]
+        public ActionResult Edit(UsuarioViewModel uvm)
+        {
+            if (ModelState.IsValid)
+            {
+                Usuario usuario = GerenciadorUsuario.FindById(uvm.Id);
+                usuario.UserName = uvm.Nome;
+                usuario.Email = uvm.Email;
+                usuario.PasswordHash = GerenciadorUsuario.PasswordHasher.
+                HashPassword(uvm.Senha);
+                IdentityResult result = GerenciadorUsuario.Update(usuario);
+                if (result.Succeeded)
+                { return RedirectToAction("Index"); }
+                else
+                { AddErrorsFromResult(result); }
+            }
+            return View(uvm);
+        }
+
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(
+                HttpStatusCode.BadRequest);
+            }
+            Usuario usuario = GerenciadorUsuario.FindById(id);
+            if (usuario == null)
+            {
+                return HttpNotFound();
+            }
+            return View(usuario);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(Usuario usuario)
+        {
+            Usuario user = GerenciadorUsuario.FindById(usuario.Id);
+            if (user != null)
+            {
+                IdentityResult result = GerenciadorUsuario.Delete(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(
+                    HttpStatusCode.BadRequest);
+                }
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+        }
+
+
     }
 }
