@@ -21,6 +21,7 @@ namespace WebAppProjeto2023G2.Controllers
         private FabricanteServico fabricanteServico = new FabricanteServico();
 
         // GET: Produtos
+        [Authorize]
         public ActionResult Index()
         {
             //return View(context.Produtos.Include(c => c.Categoria).Include(f => f.Fabricante).OrderBy(c => c.Nome));

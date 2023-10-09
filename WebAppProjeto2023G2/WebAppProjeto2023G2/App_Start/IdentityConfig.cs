@@ -17,6 +17,7 @@ namespace WebAppProjeto2023G2
             app.CreatePerOwinContext<IdentityDbContextAplicacao>
             (IdentityDbContextAplicacao.Create);
             app.CreatePerOwinContext<GerenciadorUsuario>(GerenciadorUsuario.Create);
+            app.CreatePerOwinContext<GerenciadorPapel>(GerenciadorPapel.Create);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie,

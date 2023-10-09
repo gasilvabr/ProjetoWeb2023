@@ -23,6 +23,7 @@ namespace WebAppProjeto2023G2.Areas.Seguranca.Controllers
             }
         }
         // GET: Seguranca/Admin
+
         public ActionResult Index()
         {
             return View(GerenciadorUsuario.Users);
@@ -111,6 +112,29 @@ namespace WebAppProjeto2023G2.Areas.Seguranca.Controllers
                 return HttpNotFound();
             }
             return View(usuario);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(Usuario usuario)
+        {
+            Usuario user = GerenciadorUsuario.FindById(usuario.Id);
+            if (user != null)
+            {
+                IdentityResult result = GerenciadorUsuario.Delete(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(
+                    HttpStatusCode.BadRequest);
+                }
+            }
+            else
+            {
+                return HttpNotFound();
+            }
         }
     }
 }
