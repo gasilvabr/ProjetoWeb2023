@@ -61,5 +61,10 @@ namespace WebAppProjeto2023G1.Areas.Seguranca.Controllers
             }
             return View(details);
         }
+        public ActionResult Logout()
+        {
+            AuthManager.SignOut();
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
     }
 }

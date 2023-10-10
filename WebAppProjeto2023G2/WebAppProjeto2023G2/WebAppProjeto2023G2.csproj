@@ -202,6 +202,8 @@
     <Content Include="Areas\Seguranca\Views\Admin\Delete.cshtml" />
     <Content Include="Areas\Seguranca\Views\Account\Login.cshtml" />
     <Content Include="Areas\Seguranca\Views\PapelAdmin\Index.cshtml" />
+    <Content Include="Areas\Seguranca\Views\PapelAdmin\Create.cshtml" />
+    <Content Include="Areas\Seguranca\Views\PapelAdmin\Edit.cshtml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\DataTables-1.10.2\dataTables.autoFill.js" />
     <Content Include="Scripts\DataTables-1.10.2\dataTables.autoFill.min.js" />

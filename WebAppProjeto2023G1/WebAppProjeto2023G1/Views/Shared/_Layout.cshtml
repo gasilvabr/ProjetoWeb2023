@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using WebAppProjeto2023G1.Infraestrutura
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"
@@ -17,6 +18,20 @@
                         Utilizando o Bootstrap
                     </small>
                 </h1>
+            </div>
+            <div style="text-align:right;">
+                @{
+                    if (Html.GetAuthenticatedUser().ToString() != "")
+                    {
+                        @Html.GetAuthenticatedUser();
+                        @Html.ActionLink(" - Sair", "Logout", "Account")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Acessar", "Login", "Account",
+                        new { area = "Seguranca" }, null);
+                    }
+                }
             </div>
         </div>
         <div class="row">

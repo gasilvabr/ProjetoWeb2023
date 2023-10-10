@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebAppProjeto2023G1.Areas.Seguranca.Data;
@@ -60,6 +61,51 @@ namespace WebAppProjeto2023G1.Areas.Seguranca.Controllers
                 }
             }
             return View(nome);
+        }
+
+        public ActionResult Edit(string id)
+        {
+            Papel papel = RoleManager.FindById(id);
+            string[] memberIDs = papel.Users.Select(x => x.UserId).ToArray();
+            // Carrega usuários associados e usuários não associados
+            IEnumerable<Usuario> membros = UserManager.Users.Where
+            (x => memberIDs.Any(y => y == x.Id));
+            IEnumerable<Usuario> naoMembros = UserManager.Users.Except(membros);
+            // Chama a visão
+            return View(new PapelEditModel
+            {
+                Papel = papel,
+                Membros = membros,
+                NaoMembros = naoMembros
+            });
+        }
+
+        [HttpPost]
+        public ActionResult Edit(PapelModificationModel model)
+        {
+            IdentityResult result;
+            if (ModelState.IsValid)
+            {
+                foreach (string userId in model.IdsParaAdicionar ?? new
+                string[] { })
+                {
+                    result = UserManager.AddToRole(userId, model.NomePapel);
+                    if (!result.Succeeded)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                }
+                foreach (string userId in model.IdsParaRemover ?? new string[] { })
+                {
+                    result = UserManager.RemoveFromRole(userId, model.NomePapel);
+                    if (!result.Succeeded)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
     }
 }
