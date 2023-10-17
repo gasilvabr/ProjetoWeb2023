@@ -225,5 +225,11 @@ namespace WebAppProjeto2023G2.Controllers
                 return View();
             }
         }
+
+        public JsonResult GetProdutosPorNome(string param)
+        {
+            var r = produtoServico.ObterProdutosPorNome(param);
+            return Json(r, JsonRequestBehavior.AllowGet);
+        }
     }
 }
