@@ -16,7 +16,7 @@ namespace WebAppProjeto2023G2.Areas.Carrinho.Controllers
 		public ActionResult Create()
 		{
 			IEnumerable<ItemCarrinho> carrinho = HttpContext.Session["carrinho"] as IEnumerable<ItemCarrinho>;
-						if (carrinho == null)
+			if (carrinho == null)
 			{
 				carrinho = new List<ItemCarrinho>();
 				HttpContext.Session["carrinho"] = carrinho;

@@ -1,19 +1,19 @@
-﻿@model	IEnumerable<Modelo.Carrinho.ItemCarrinho>
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model IEnumerable<Modelo.Carrinho.ItemCarrinho>
+@{ Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("AddProduto", "Carrinhos", new { area = "Carrinho" }, FormMethod.Post, new { id = "formCarrinho" }))
+@using (Html.BeginForm("AddProduto", "Carrinhos",
+    new { area = "Carrinho" }, FormMethod.Post, new { id = "formCarrinho" }))
 {
     @Html.AntiForgeryToken()
-    <div class="panel	panel-primary">
+    <div class="panel panel-primary">
         <div class="panel-heading">
-            Seleção	de	itens	para	o	carrinho	de	compra
+            Seleção de itens para o carrinho de compra
         </div>
         <div class="panel-body">
             <div class="form-horizontal">
                 <div class="col-md-12">
                     <div class="form-group">
-                        Selecione	o	produto	e	confirme	a	inserção
+                        Selecione o produto e confirme a inserção
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -26,10 +26,12 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-8">
-                                @Html.DropDownList("ItemCarrinhoId", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.DropDownList("ItemCarrinhoId", null,
+                                htmlAttributes: new { @class = "form-control" })
                             </div>
                             <div class="col-md-2">
-                                @Html.TextBox("Quantidade", "", htmlAttributes: new { @class = "form-control" })
+                                @Html.TextBox("Quantidade", "",
+                                htmlAttributes: new { @class = "form-control" })
                             </div>
                         </div>
                     </div>
@@ -37,46 +39,19 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group" style="text-align:center;">
-                    <input id="SubmitForm" type="submit" value="Adicionar	produto	ao	carrinho" class="btn	btn-success" />
+                    <input id="SubmitForm" type="submit" value="Adicionar produto ao carrinho"
+                           class="btn btn-success" />
                 </div>
             </div>
         </div>
     </div>
-    <div class="panel	panel-primary">
+    <div class="panel panel-primary">
         <div class="panel-body">
             <div class="col-md-12">
-                <!--		COMENTÁRIO	2 O	DIV	A	SEGUIR	TERÁ	SEU	CONTEÚDO	ATUALIZADO	VIA AJAX	A	CADA	INSERÇÃO	DE	ITEM	NO	CARRINHO	-->
-                                <div id="itenscarrinho">
-                                    @Html.Partial("~/Areas/Carrinho/Views/Carrinhos/_ItensCarrinho.cshtml", Model)
-                                </div>
-                            </div>
+                <div id="itenscarrinho">
+                    @Html.Partial("~/Areas/Carrinho/Views/Carrinhos/_ItensCarrinho.cshtml", Model)
+                </div>
+            </div>
         </div>
     </div>
-}
-@section	styles{
-    <link href="~/Scripts/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet" />
-}
-@section	ScriptPage	{
-    <script src="~/Scripts/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function (response, status, xhr) {
-            $('.autocomplete-with-update-field').autocomplete({
-                minLength: 5,
-                source: function (request, response) {
-                    var url = $(this.element).data('url');
-                    $.getJSON(url, { param: request.term }, function
-                        (data) {
-                        response(data);
-                    });
-                },
-                select: function (event, ui) {
-                    var updatefield = '#' + $("#" + event.target.id).
-                        data('updatefield');
-                    $(updatefield).val(ui.item.id);
-                    setTimeout(function () {
-                        $(updatefield).focus();
-                    }, 200);
-                }
-            });
-    </script>
 }
