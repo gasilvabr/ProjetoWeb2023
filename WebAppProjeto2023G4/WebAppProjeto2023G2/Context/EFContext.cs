@@ -1,4 +1,5 @@
 ﻿using Modelo.Cadastros;
+using Modelo.Carrinho;
 using Modelo.Tabelas;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace WebAppProjeto2023G2.Models
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Fabricante> Fabricantes { get; set; }
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<ItemPedido> ItemPedidos { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

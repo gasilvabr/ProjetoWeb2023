@@ -1,4 +1,5 @@
 ﻿using Modelo.Cadastros;
+using Modelo.Carrinho;
 using Modelo.Tabelas;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,13 @@ namespace Persistencia.Contexts
     {
         public EFContext() : base("Asp_Net_MVC_CS")
         {
-            //Database.SetInitializer<EFContext>(
-            //new DropCreateDatabaseIfModelChanges<EFContext>());
+            Database.SetInitializer<EFContext>(
+              new DropCreateDatabaseIfModelChanges<EFContext>());
         }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Fabricante> Fabricantes { get; set; }
         public DbSet<Produto> Produtos { get; set; }
-
+        public DbSet<ItemPedido> ItemPedidos { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //base.OnModelCreating(modelBuilder);
