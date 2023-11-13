@@ -203,6 +203,9 @@
     <Content Include="Areas\Seguranca\Views\PapelAdmin\Index.cshtml" />
     <Content Include="Areas\Seguranca\Views\PapelAdmin\Create.cshtml" />
     <Content Include="Areas\Seguranca\Views\PapelAdmin\Edit.cshtml" />
+    <Content Include="Areas\Carrinho\Views\web.config" />
+    <Content Include="Areas\Carrinho\Views\Carrinhos\Create.cshtml" />
+    <Content Include="Areas\Carrinho\Views\Carrinhos\_ItensCarrinho.cshtml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -238,6 +241,8 @@
   <ItemGroup>
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Carrinho\CarrinhoAreaRegistration.cs" />
+    <Compile Include="Areas\Carrinho\Controllers\CarrinhosController.cs" />
     <Compile Include="Areas\Seguranca\Controllers\AccountController.cs" />
     <Compile Include="Areas\Seguranca\Controllers\AdminController.cs" />
     <Compile Include="Areas\Seguranca\Controllers\PapelAdminController.cs" />
@@ -294,6 +299,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Carrinho\Data\" />
+    <Folder Include="Areas\Carrinho\Views\Shared\" />
     <Folder Include="Areas\Seguranca\Views\Shared\" />
     <Folder Include="Models\" />
   </ItemGroup>
