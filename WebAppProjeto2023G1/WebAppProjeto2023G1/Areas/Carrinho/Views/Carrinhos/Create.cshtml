@@ -57,3 +57,14 @@ new { area = "Carrinho" }, FormMethod.Post, new { id = "formCarrinho" }))
         </div>
     </div>
 }
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-12">
+        <div class="form-group" style="text-align:center;">
+            <input id="PedidoForm" type="submit" value="Confirmar Compra"
+                   class="btn btn-success" />
+        </div>
+    </div>
+}
